@@ -1,2 +1,38 @@
-# OSDR-GNN
-Dataset and Code for IDETC publication: EXTRACTING FUNCTIONAL KNOWLEDGE FROM PRODUCT ASSEMBLIES WITH GRAPH NEURAL NETWORKS
+# ADS-OSU-Assembly-Graph
+> Ongoing collaboration between Autodesk and Oregon State University concerning the creation of assembly-flow based knowledge graphs to infer function
+
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+
+Version 0.0.1
+
+Based in Python
+
+## Code Dependencies 
+
+- networkX
+- CSV
+- numpy
+
+## Release History
+* 0.0.1
+    * Intialization
+
+## Meta
+
+Vincenzo Ferrero -  Ferrerov@oregonstate.edu
+
+Daniele Grandi - daniele.grandi@autodesk.com
+
+Kaveh Hassani - kaveh.hassani@autodesk.com
+
+Distributed under the BSD-4-Clause License. See ``LICENSE`` for more information.
+
+[https://github.com/VincenzoFerrero/ADS-OSU-Assembly-Graph](https://github.com/dbader/)
+
+## Contributing
+
+1. Fork it (<https://github.com/yourname/yourproject/fork>)
+2. Create your feature branch 
+3. Commit your changes 
+4. Push to the branch 
+5. Create a new Pull Request
