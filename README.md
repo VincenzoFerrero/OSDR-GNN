@@ -3,8 +3,6 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-Version 0.0.1
-
 Based in Python
 
 ## Code Dependencies 
@@ -13,9 +11,6 @@ Based in Python
 - CSV
 - numpy
 
-## Release History
-* 0.0.1
-    * Intialization
 
 ## Meta
 
@@ -25,9 +20,8 @@ Daniele Grandi - daniele.grandi@autodesk.com
 
 Kaveh Hassani - kaveh.hassani@autodesk.com
 
-Distributed under the BSD-4-Clause License. See ``LICENSE`` for more information.
+Distributed under the MIT License. See ``LICENSE`` for more information.
 
-[https://github.com/VincenzoFerrero/ADS-OSU-Assembly-Graph](https://github.com/dbader/)
 
 ## Contributing
 
