@@ -140,8 +140,8 @@ class HierarchicalGNN(nn.Module):
 
     def forward(self, x, edge_index, e, y1, y2):
         yp_l1 = self.gnn_level1(x, edge_index, e, 0)
-        yp_l2 = self.gnn_level2(x, edge_index, e, y1) # F.softmax(yp_l1, dim=-1))
-        yp_l3 = self.gnn_level3(x, edge_index, e, y2) #F.softmax(yp_l2, dim=-1))
+        yp_l2 = self.gnn_level2(x, edge_index, e, y1)
+        yp_l3 = self.gnn_level3(x, edge_index, e, y2)
         return yp_l1, yp_l2, yp_l3
 
     @torch.no_grad()
@@ -152,17 +152,63 @@ class HierarchicalGNN(nn.Module):
         return yp_l1, yp_l2, yp_l3
 
 
-class Ensemble(torch.nn.Module):
-    def __init__(self, node_dim, edge_dim, hid_dim, num_class, num_layers, JK='sum'):
-        super(Ensemble, self).__init__()
-        self.gnn1 = GNN(node_dim, edge_dim, hid_dim, num_class, num_layers, JK=JK)
-        self.gnn2 = GNN(node_dim, edge_dim, hid_dim, num_class, num_layers, JK=JK)
-        self.gnn3 = GNN(node_dim, edge_dim, hid_dim, num_class, num_layers, JK=JK)
+class MLP(nn.Module):
+    def __init__(self, node_dim, hid_dim, num_class_l1, num_class_l2, num_class_l3):
+        super(MLP, self).__init__()
+        self.mlp_level1 = nn.Sequential(
+            nn.Linear(node_dim, hid_dim),
+            nn.ReLU(),
+            nn.Dropout(p=0.1),
+            nn.Linear(hid_dim, num_class_l1)
+        )
+        self.mlp_level2 = nn.Sequential(
+            nn.Linear(node_dim + num_class_l1, hid_dim),
+            nn.ReLU(),
+            nn.Dropout(p=0.1),
+            nn.Linear(hid_dim, num_class_l2)
+        )
+        self.mlp_level3 = nn.Sequential(
+            nn.Linear(node_dim + num_class_l2, hid_dim),
+            nn.ReLU(),
+            nn.Dropout(p=0.1),
+            nn.Linear(hid_dim, num_class_l3)
+        )
 
-    def forward(self, x, edge_index, e):
-        return self.gnn1(x, edge_index, e) + self.gnn2(x, edge_index, e) + self.gnn3(x, edge_index, e)
+    def forward(self, x, y1, y2):
+        yp_l1 = self.mlp_level1(x)
+        yp_l2 = self.mlp_level2(torch.cat((x, y1), dim=-1))
+        yp_l3 = self.mlp_level3(torch.cat((x, y2), dim=-1))
+        return yp_l1, yp_l2, yp_l3
+
+    @torch.no_grad()
+    def predict(self, x):
+        yp_l1 = F.softmax(self.mlp_level1(x), dim=-1)
+        yp_l2 = F.softmax(self.mlp_level2(torch.cat((x, yp_l1), dim=-1)), dim=-1)
+        yp_l3 = F.softmax(self.mlp_level3(torch.cat((x, yp_l2), dim=-1)), dim=-1)
+        return yp_l1, yp_l2, yp_l3
+
+
+class Linear(nn.Module):
+    def __init__(self, node_dim, hid_dim, num_class_l1, num_class_l2, num_class_l3):
+        super(Linear, self).__init__()
+        self.linear_l1 = nn.Linear(node_dim, num_class_l1)
+        self.linear_l2 = nn.Linear(node_dim + num_class_l1, num_class_l2)
+        self.linear_l3 = nn.Linear(node_dim + num_class_l2, num_class_l3)
+
+    def forward(self, x, y1, y2):
+        yp_l1 = self.linear_l1(x)
+        yp_l2 = self.linear_l2(torch.cat((x, y1), dim=-1))
+        yp_l3 = self.linear_l3(torch.cat((x, y2), dim=-1))
+        return yp_l1, yp_l2, yp_l3
+
+    @torch.no_grad()
+    def predict(self, x):
+        yp_l1 = F.softmax(self.linear_l1(x), dim=-1)
+        yp_l2 = F.softmax(self.linear_l2(torch.cat((x, yp_l1), dim=-1)), dim=-1)
+        yp_l3 = F.softmax(self.linear_l3(torch.cat((x, yp_l2), dim=-1)), dim=-1)
+        return yp_l1, yp_l2, yp_l3
+
 
 if __name__ == "__main__":
     pass
-
 
