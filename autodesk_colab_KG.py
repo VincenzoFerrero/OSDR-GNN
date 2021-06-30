@@ -163,7 +163,7 @@ def load_data(path='./data/autodesk_colab_fullv3_202010291746.csv'):
 
         # Adding Edges by Flow Data ##
 
-        # ##  Input Flow ##
+        # ## Input Flow ##
         for l in range(len(G.nodes.data())):
             data_point_1 = node_index[l][0]
             input_flow_from = data[int(data_point_1)][19]
@@ -171,7 +171,7 @@ def load_data(path='./data/autodesk_colab_fullv3_202010291746.csv'):
             for m in range(len(G.nodes.data())):
                 if input_flow_from  == data[int(node_index[m][0])][1]:
                     G.add_edge(node_index[m],node_index[l])
-                    G.edges[node_index[m],node_index[l]]['flow'] = data[int(data_point_1)][17]
+                    G.edges[node_index[m],node_index[l]][data[0][16]] = data[int(data_point_1)][17]
 
 
         # ## Output Flow ##
@@ -180,20 +180,9 @@ def load_data(path='./data/autodesk_colab_fullv3_202010291746.csv'):
             output_flow_from = data[int(data_point_1)][23]
 
             for p in range(len(G.nodes.data())):
-    
                 if output_flow_from  == data[int(node_index[p][0])][1]:
                     G.add_edge(node_index[n], node_index[p])
-                    
-                    ## Checking if flows already exist on for the edge
-                    if any(G.edges[node_index[n], node_index[p]].values()) == True:
-                        
-                        ## checking if the input/out are matching, if not the new flow is added to the edge
-                        if G.edges[node_index[n], node_index[p]]['flow'] != data[int(data_point_1)][21]:
-                            G.edges[node_index[n], node_index[p]]['flow'] = G.edges[node_index[n], node_index[p]]['flow'],data[int(data_point_1)][21]
-                    
-                    else:
-                        
-                        G.edges[node_index[n], node_index[p]]['flow'] = data[int(data_point_1)][21]
+                    G.edges[node_index[n], node_index[p]][data[0][20]] = data[int(data_point_1)][21]
 
 
 
@@ -202,11 +191,10 @@ def load_data(path='./data/autodesk_colab_fullv3_202010291746.csv'):
 
 
 
-    nx.draw(graph_list[0],with_labels = True)
+    # nx.draw(graph_list[0],with_labels = True)
     # print(len(unique_systems))
     return graph_list
 
 
 if __name__ == '__main__':
     graphs = load_data()
-    
