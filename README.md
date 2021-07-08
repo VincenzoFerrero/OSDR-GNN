@@ -1,4 +1,4 @@
-# ADS-OSU-Assembly-Graph
+# ADSK-OSU-Assembly-Graph
 > Ongoing collaboration between Autodesk and Oregon State University concerning the creation of assembly-flow based knowledge graphs to infer function
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
