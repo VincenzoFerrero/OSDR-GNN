@@ -274,7 +274,7 @@ class DataSet(object):
 
     def shuffle(self):
         train, test = train_test_split(self.graphs, test_size=.3, shuffle=True)
-        train, val = train_test_split(self.graphs, test_size=.1, shuffle=True)
+        train, val = train_test_split(train, test_size=.1, shuffle=True)
         self.train_loader = DataLoader(train, batch_size=self.batch_size, shuffle=True)
         self.val_loader = DataLoader(val, batch_size=self.batch_size, shuffle=False)
         self.test_loader = DataLoader(test, batch_size=self.batch_size, shuffle=False)
