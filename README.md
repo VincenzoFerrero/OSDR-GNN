@@ -10,11 +10,11 @@ Based in Python
 - networkX
 - CSV
 - numpy
-
+- Torch
 
 ## Meta
 
-Vincenzo Ferrero -  Ferrerov@oregonstate.edu
+Vincenzo Ferrero -  Vincenzo.Ferrero@nist.gov. (Formally Oregon State University)
 
 Daniele Grandi - daniele.grandi@autodesk.com
 
